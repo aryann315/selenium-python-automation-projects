@@ -41,65 +41,65 @@ class MakeAppointmentPage(BaseDriver):
         return confirm_appointment_page
 
     def verify_page_heading(self):
-        CommonMethods.wait_for_element_to_appear(self.driver, self.APPOINTMENT_SECTION_TITLE_LOCATOR)
-        appointment_page_heading = CommonMethods.get_element_text(self.driver, self.APPOINTMENT_SECTION_TITLE_LOCATOR)
+        BaseDriver.wait_for_element_to_appear(self.driver, self.APPOINTMENT_SECTION_TITLE_LOCATOR)
+        appointment_page_heading = BaseDriver.get_element_text(self.driver, self.APPOINTMENT_SECTION_TITLE_LOCATOR)
         CommonMethods.assert_element_text(self.driver, appointment_page_heading, "Make Appointment")
 
     def verify_select_dropdown_behaviour(self, select_options):
         # Select all the values and assert they are selected
         for option in select_options:
-            CommonMethods.select_dropdown_by_value(self.driver, self.FACILITY_SELECT_LOCATOR, option)
-            selected_value = CommonMethods.get_selected_dropdown_value(self.driver, self.FACILITY_SELECT_LOCATOR)
+            BaseDriver.select_dropdown_by_value(self.driver, self.FACILITY_SELECT_LOCATOR, option)
+            selected_value = BaseDriver.get_selected_dropdown_value(self.driver, self.FACILITY_SELECT_LOCATOR)
             CommonMethods.assert_element_text(self.driver, selected_value, option)
 
     def verify_checkbox_behaviour(self):
         # Check the checkbox and assert
-        CommonMethods.click_element(self.driver, self.CHECKBOX_LOCATOR)
-        CommonMethods.is_checked_or_selected(self.driver, self.CHECKBOX_LOCATOR)
+        BaseDriver.click_element(self.driver, self.CHECKBOX_LOCATOR)
+        BaseDriver.is_checked_or_selected(self.driver, self.CHECKBOX_LOCATOR)
 
         # Uncheck the checkbox and assert
-        CommonMethods.click_element(self.driver, self.CHECKBOX_LOCATOR)
-        CommonMethods.is_not_checked_or_not_selected(self.driver, self.CHECKBOX_LOCATOR)
+        BaseDriver.click_element(self.driver, self.CHECKBOX_LOCATOR)
+        BaseDriver.is_not_checked_or_not_selected(self.driver, self.CHECKBOX_LOCATOR)
 
     def verify_radio_button_behaviour(self, radio_options):
         # Select all the radio buttons, assert they are selected and others are not
         for option in radio_options:
             radio_btn_locator = self.get_radio_button_locator(option)
-            CommonMethods.click_element(self.driver, radio_btn_locator)
-            CommonMethods.is_checked_or_selected(self.driver, radio_btn_locator)
-            radio_button_value = CommonMethods.get_element_attribute(self.driver, radio_btn_locator, "value")
+            BaseDriver.click_element(self.driver, radio_btn_locator)
+            BaseDriver.is_checked_or_selected(self.driver, radio_btn_locator)
+            radio_button_value = BaseDriver.get_element_attribute(self.driver, radio_btn_locator, "value")
             CommonMethods.assert_attribute_value(self.driver, radio_button_value, option)
 
             for other_radio in radio_options:
                 if other_radio != option:
                     other_radio_locator = self.get_radio_button_locator(other_radio)
-                    CommonMethods.is_not_checked_or_not_selected(self.driver, other_radio_locator)
+                    BaseDriver.is_not_checked_or_not_selected(self.driver, other_radio_locator)
 
     def verify_text_area_behaviour(self):
         # Enter the text in comments text area and assert
-        CommonMethods.set_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "Demo text in comments text area.")
-        comments_text_value = CommonMethods.get_element_attribute(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "value")
+        BaseDriver.set_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "Demo text in comments text area.")
+        comments_text_value = BaseDriver.get_element_attribute(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "value")
         CommonMethods.assert_attribute_value(self.driver, comments_text_value,"Demo text in comments text area.")
 
         # Clear the text and assert
-        CommonMethods.clear_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR)
-        comments_text_value = CommonMethods.get_element_attribute(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "value")
+        BaseDriver.clear_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR)
+        comments_text_value = BaseDriver.get_element_attribute(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "value")
         CommonMethods.assert_attribute_value(self.driver, comments_text_value, "")
 
         # Enter the text before submitting
-        CommonMethods.set_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "Demo text in comments text area.")
+        BaseDriver.set_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "Demo text in comments text area.")
 
     def click_book_appointment_button(self):
-        CommonMethods.click_element(self.driver, self.BOOK_APPOINTMENT_BTN_LOCATOR)
+        BaseDriver.click_element(self.driver, self.BOOK_APPOINTMENT_BTN_LOCATOR)
 
     def verify_mandatory_date_field_behaviour(self):
-        missing_date_validation_message = CommonMethods.get_element_attribute(self.driver, self.VISIT_DATE_LOCATOR, "validationMessage")
+        missing_date_validation_message = BaseDriver.get_element_attribute(self.driver, self.VISIT_DATE_LOCATOR, "validationMessage")
 
         # Assert the missing date field
         CommonMethods.assert_attribute_value(self.driver, missing_date_validation_message, "Please fill in this field.")
 
         # Enter today's date and book appointment
-        CommonMethods.set_element_text(self.driver, self.VISIT_DATE_LOCATOR, CommonMethods.get_today_date(self.driver))
+        BaseDriver.set_element_text(self.driver, self.VISIT_DATE_LOCATOR, CommonMethods.get_today_date(self.driver))
 
 
 
