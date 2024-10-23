@@ -25,7 +25,7 @@ class LoginPage(BaseDriver):
         BaseDriver.set_element_text(self.driver, self.PASSWORD_FIELD_LOCATOR, password)
         BaseDriver.click_element(self.driver, self.LOGIN_BTN_LOCATOR)
         login_warning_text = BaseDriver.get_element_text(self.driver, self.LOGIN_WARNING_TEXT_LOCATOR)
-        CommonMethods.assert_element_text(self.driver, login_warning_text, login_status_message)
+        CommonMethods.assert_element_text(self.driver, login_status_message, login_warning_text)
 
     def login_success(self):
         # Wait for page refresh, get username and password, then login

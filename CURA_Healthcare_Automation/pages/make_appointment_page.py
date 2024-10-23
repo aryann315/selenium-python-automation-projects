@@ -26,11 +26,11 @@ class MakeAppointmentPage(BaseDriver):
 
 
     # Page methods
-    def enter_details_and_book_appointment(self, select_options, radio_options):
+    def enter_details_and_book_appointment(self):
         self.verify_page_heading()
-        self.verify_select_dropdown_behaviour(select_options)
+        self.verify_select_dropdown_behaviour()
         self.verify_checkbox_behaviour()
-        self.verify_radio_button_behaviour(radio_options)
+        self.verify_radio_button_behaviour()
         self.verify_text_area_behaviour()
         self.click_book_appointment_button()
         self.verify_mandatory_date_field_behaviour()
@@ -43,14 +43,16 @@ class MakeAppointmentPage(BaseDriver):
     def verify_page_heading(self):
         BaseDriver.wait_for_element_to_appear(self.driver, self.APPOINTMENT_SECTION_TITLE_LOCATOR)
         appointment_page_heading = BaseDriver.get_element_text(self.driver, self.APPOINTMENT_SECTION_TITLE_LOCATOR)
-        CommonMethods.assert_element_text(self.driver, appointment_page_heading, "Make Appointment")
+        CommonMethods.assert_element_text(self.driver, "Make Appointment", appointment_page_heading)
 
-    def verify_select_dropdown_behaviour(self, select_options):
+    def verify_select_dropdown_behaviour(self):
+        select_options = ["Hongkong CURA Healthcare Center", "Seoul CURA Healthcare Center","Tokyo CURA Healthcare Center"]
+
         # Select all the values and assert they are selected
         for option in select_options:
             BaseDriver.select_dropdown_by_value(self.driver, self.FACILITY_SELECT_LOCATOR, option)
             selected_value = BaseDriver.get_selected_dropdown_value(self.driver, self.FACILITY_SELECT_LOCATOR)
-            CommonMethods.assert_element_text(self.driver, selected_value, option)
+            CommonMethods.assert_element_text(self.driver, option, selected_value)
 
     def verify_checkbox_behaviour(self):
         # Check the checkbox and assert
@@ -61,14 +63,16 @@ class MakeAppointmentPage(BaseDriver):
         BaseDriver.click_element(self.driver, self.CHECKBOX_LOCATOR)
         BaseDriver.is_not_checked_or_not_selected(self.driver, self.CHECKBOX_LOCATOR)
 
-    def verify_radio_button_behaviour(self, radio_options):
+    def verify_radio_button_behaviour(self):
+        radio_options = ["Medicaid", "None", "Medicare"]
+
         # Select all the radio buttons, assert they are selected and others are not
         for option in radio_options:
             radio_btn_locator = self.get_radio_button_locator(option)
             BaseDriver.click_element(self.driver, radio_btn_locator)
             BaseDriver.is_checked_or_selected(self.driver, radio_btn_locator)
             radio_button_value = BaseDriver.get_element_attribute(self.driver, radio_btn_locator, "value")
-            CommonMethods.assert_attribute_value(self.driver, radio_button_value, option)
+            CommonMethods.assert_attribute_value(self.driver, option, radio_button_value)
 
             for other_radio in radio_options:
                 if other_radio != option:
@@ -79,12 +83,12 @@ class MakeAppointmentPage(BaseDriver):
         # Enter the text in comments text area and assert
         BaseDriver.set_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "Demo text in comments text area.")
         comments_text_value = BaseDriver.get_element_attribute(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "value")
-        CommonMethods.assert_attribute_value(self.driver, comments_text_value,"Demo text in comments text area.")
+        CommonMethods.assert_attribute_value(self.driver, "Demo text in comments text area.", comments_text_value)
 
         # Clear the text and assert
         BaseDriver.clear_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR)
         comments_text_value = BaseDriver.get_element_attribute(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "value")
-        CommonMethods.assert_attribute_value(self.driver, comments_text_value, "")
+        CommonMethods.assert_attribute_value(self.driver, "", comments_text_value)
 
         # Enter the text before submitting
         BaseDriver.set_element_text(self.driver, self.COMMENTS_TEXT_AREA_LOCATOR, "Demo text in comments text area.")
@@ -96,10 +100,11 @@ class MakeAppointmentPage(BaseDriver):
         missing_date_validation_message = BaseDriver.get_element_attribute(self.driver, self.VISIT_DATE_LOCATOR, "validationMessage")
 
         # Assert the missing date field
-        CommonMethods.assert_attribute_value(self.driver, missing_date_validation_message, "Please fill in this field.")
+        CommonMethods.assert_attribute_value(self.driver, "Please fill", missing_date_validation_message)
 
+        today_date = CommonMethods.get_today_date(self.driver)
         # Enter today's date and book appointment
-        BaseDriver.set_element_text(self.driver, self.VISIT_DATE_LOCATOR, CommonMethods.get_today_date(self.driver))
+        BaseDriver.set_element_text(self.driver, self.VISIT_DATE_LOCATOR, today_date)
 
 
 

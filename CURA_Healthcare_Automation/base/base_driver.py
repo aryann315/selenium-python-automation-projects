@@ -15,7 +15,7 @@ class BaseDriver:
 
     def get_element_text(self, locator):
         element_text = WebDriverWait(self.driver, BaseDriver.timeout).until(ec.visibility_of_element_located(locator)).text.strip()
-        return element_text
+        return element_text.strip()
 
     def get_element_attribute(self, locator, attribute):
         element_attribute = WebDriverWait(self.driver, BaseDriver.timeout).until(ec.visibility_of_element_located(locator)).get_attribute(
